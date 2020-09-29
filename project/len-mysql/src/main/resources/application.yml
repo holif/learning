@@ -1,0 +1,62 @@
+server:
+  port: 8090
+
+spring:
+  jackson:
+    dateFormat: yyyy-MM-dd HH:mm:ss
+  timeZone: GMT+8
+  devtools:
+    restart:
+      enabled: true
+
+  jpa:
+    database: mysql
+    showSql: true
+    hibernate:
+      ddlAuto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+  shardingsphere:
+    datasource:
+      names: master,slave1,slave2
+
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.100.241:3307/h_read
+        username: root
+        password: 123456
+
+      slave1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.100.241:3308/h_read
+        username: root
+        password: 123456
+
+      slave2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.100.241:3309/h_read
+        username: root
+        password: 123456
+
+    masterslave:
+      load-balance-algorithm-type: round_robin
+      name: dataSource
+      master-data-source-name: master
+      slave-data-source-names: slave1,slave2
+
+    props:
+      sql:
+        show: true
+
+
+  main:
+    allow-bean-definition-overriding: true
+# logging
+logging:
+  level:
+    root: info
