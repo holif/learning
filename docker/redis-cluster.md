@@ -1,4 +1,8 @@
 # 使用Docker搭建Redis三主三从集群
+```
+#启动一个名为tredis的redis服务,密码123456
+docker run -d --name tredis -p 6379:6379 redis --requirepass "123456" 
+```
 
 ### 准备一个自定义网络做redis之间通讯
 ```
